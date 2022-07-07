@@ -1,0 +1,164 @@
+ 
+
+ 
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Ajouter une gouvernorat</h4>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-secondary btn-sm" href="{{ path('products_index') }}">Retour</a> 
+                        </div>
+
+                    </div>
+                    <div class="card-body" style="position: relative;">
+
+
+                    <form method="post" action="{{ path('products_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                            <button class="btn btn-danger">Supprimer</button>
+                                        </form>
+                                        
+                          
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>Titre</th>
+                                    <td>{{ product.title }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Status</th>
+                                    <td>
+                                        {% if product.status == 0 %}
+                                            <span class="badge bg-warning">en attente</span>
+                                        {% endif %}
+                                        {% if product.status == 1 %}
+                                            <span class="badge bg-success">publié</span>
+                                        {% endif %}
+                                        {% if product.status == 2 %}
+                                            <span class="badge bg-danger">refusé</span>
+                                        {% endif %}
+                                        {% if product.status == 3 %}
+                                            <span class="badge bg-info">vendu</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th>Description</th>
+                                    <td>{{ product.description }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Photos</th>
+                                    <td>
+                                        <img src="{{ product.mainPhoto }}" width="250px" style="margin-right: 15px;" alt="">
+                                        <img src="{{ product.secondPhoto }}" width="250px" style="margin-right: 15px;" alt="">
+                                        <img src="{{ product.thirdPhoto }}" width="250px" style="margin-right: 15px;" alt="">
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th>Price</th>
+                                    <td>{{ product.price |format_currency('TND') }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Date de publication</th>
+                                    <td>{{ product.addDate ? product.addDate|date('Y-m-d H:i:s') : '' }}</td>
+                                </tr>
+
+
+                                <tr>
+                                    <th>Actions</th>
+                                    <td>
+                                        {% if product.status == 0 %}
+                                        
+
+                                            <div class="row">
+                                                <div class="col-sm-6">
+
+                                                    <form method="post">
+                                                        <input type="hidden" name="nextValue" value="1">
+                                                        <button class="btn btn-primary" type="submit">Accepter</button>
+        
+                                                    </form>
+        
+                                                    
+                                                </div>
+                                                <div class="col-sm-6">
+
+                                                    <form method="post">
+                                                        <input type="hidden" name="nextValue" value="2"> 
+                                                        <button class="btn btn-danger" type="submit">refuser</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+                                        {% if product.status == 1 %}
+                                            
+
+                                            <form method="post">
+                                                <input type="hidden" name="nextValue" value="remove">
+                                                <button class="btn btn-danger" type="submit">Retirer</button>
+                                            </form>
+
+                                        {% endif %}
+                                        {% if product.status == 2 %}
+                                            
+
+                                             <form method="post">
+                                                <input type="hidden" name="nextValue" value="1">
+                                                <button class="btn btn-primary" type="submit">Accepter</button>
+
+                                            </form>
+
+
+                                        {% endif %}
+
+                                        <hr>
+                                        
+
+
+                                        
+
+
+
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+ 
+
+
+
+    {% endblock %}

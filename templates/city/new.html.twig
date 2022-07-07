@@ -1,0 +1,46 @@
+ 
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Ajouter une délégation dans {{town.name}}</h4>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-secondary btn-sm" href="{{ path('city_index',{id:town.id}) }}">Retour</a> 
+                        </div>
+
+                    </div>
+                    <div class="card-body" style="position: relative;">
+                          
+                        {{ include('city/_form.html.twig') }}
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+ 
+
+
+
+    {% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink |  Création de compte{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> Création de compte</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Home /</a></li>
+                        <li class="current"> Création de compte</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="login section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-12 col-xs-12">
+                <div class="login-form login-area">
+                    <h3>
+                        Création de compte
+                    </h3>
+
+                    <div class="login-form my-5">
+                        {% if error %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endif %}
+
+                    
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <div class="form-group my-2"> 
+                            <button class="btn btn-common log-btn btn-block mt-3" type="submit">{{ button_label|default('créer maintenant') }}</button>
+
+                        </div>
+
+                        
+
+                    {{ form_end(form) }}
+                    </div>
+
+                    
+                     
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+ 
+
+{% endblock %}

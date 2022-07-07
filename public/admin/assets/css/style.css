@@ -1,0 +1,65 @@
+.sidebar + .main-content {
+    margin-left: 16.2rem;
+    transition: all 400ms ease;
+}
+
+.custom-check-box {
+    margin-left: 15px;
+    font-size: 30px;
+    height: 25px;
+    padding: 5px;
+    width: 25px;
+    margin-top: 1px;
+}
+
+.table > thead > tr > th {
+    font-size: 16px !important;
+    font-weight: normal !important;
+    text-transform: capitalize !important;
+}
+
+.table > tbody > tr > td {
+    border-bottom: 1px solid #d6d6d6 !important;
+}
+
+.paginate_button current
+
+
+.table.dataTable.no-footer {
+     border-bottom:  unset; 
+}
+
+
+.table{
+    white-space: initial;
+}
+
+.table > tr{
+    white-space: initial;
+}
+
+.table > tbody > tr > td{
+    white-space: initial;
+}
+
+.table > thead > tr > th{
+    white-space: initial;
+}
+
+
+.notif-count{
+    border-radius: 50%;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 50%;
+}
+
+.sidebar-body{
+    padding-bottom: 100px !important;
+}
+
+.sf-toolbar{
+    display: none !important;
+}

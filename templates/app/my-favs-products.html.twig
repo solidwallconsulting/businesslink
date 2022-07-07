@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | {{app.user.firstname}} {{app.user.lastname}}{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> {{app.user.firstname}} {{app.user.lastname}}</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li><a href="{{ path('profile_route') }}">Profile /</a></li>
+
+                        <li class="current">Mes produits préférés</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
+                <aside>
+                    <div class="sidebar-box">
+                        <div class="user">
+                            <div class="usercontent">
+
+                                <form method="POST" action="{{ path('update_profile_picture') }}"
+                                    enctype="multipart/form-data" id="update-photo-form">
+                                    <input type="hidden" name="photo-user-update" id="photo-update-trigger"
+                                        value="null">
+                                    <input type="file" name="photo" id="photo" style="visibility:hidden;">
+
+                                    <div class="avatar-user w-50 m-auto pb-3">
+                                        <img src="{{app.user.photoURL}}" class="w-100 " alt=""
+                                        style="border-radius: 50%;">
+                                        <i class="lni-camera update-profile-photo"></i>
+                                    
+                                    </div>    
+                                </form>
+
+                                
+
+                                <h3>{{app.user.firstname}} {{app.user.lastname}}</h3>
+                                <h4>{{app.user.email}}  </h4>
+
+                                <a href="{{path('edit_account_data_route')}}" class="text-white" ><i class="lni-pencil"></i> Modifier </a>
+                            </div>
+                        </div>
+                        <nav class="navdashboard">
+                            <ul>
+                                {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                    <li>
+                                        <a class=" "  href="{{ path('web_master_route') }}">
+                                            <i class="lni-dashboard"></i>
+                                            <span>Web master </span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                <li>
+                                    <a href="{{ path('profile_route') }}">
+                                        <i class="lni-dashboard"></i>
+                                        <span>Tableau de bord </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="" href="{{ path('my_products_route') }}">
+                                        <i class="lni-cog"></i>
+                                        <span> Mes annonces</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  href="{{ path('my_messages_route') }}">
+                                        <i class="lni-comments-alt"></i>
+                                        <span> Mes messages</span>
+                                    </a>
+                                </li>
+                                
+
+
+                                <li>
+                                    <a href="/logout">
+                                        <i class="lni-enter"></i>
+                                        <span>Se déconnecter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--<div class="widget">
+                        <h4 class="widget-title">Advertisement</h4>
+                        <div class="add-box">
+                            <img class="img-fluid" src="assets/img/img1.jpg" alt="">
+                        </div>
+                    </div>-->
+                </aside>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="row page-content">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="inner-box">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mes produits préférés</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+                                 
+                                {% if favourits |length == 0 %}
+                                    <div class="alert alert-warning">
+                                        Il semble que vous n'ayez aucun produit dans votre liste des favoris
+                                    </div>
+                                {% else %}
+                                <table class="table table-responsive dashboardtable tablemyads w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Titre</th>
+                                            <th>Image annonce</th>
+                                            <th>Prix</th>
+                                            <th>Disponible à</th>
+                                            <th>Ajouté le</th>
+                                            <th>actions</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for fav in favourits %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td> <span class="badge bg-info text-white">{{fav.product.category}}</span> <br>
+                                                {{fav.product.title}}</td>
+                                            <td>
+                                                <img src="{{fav.product.mainPhoto}}" width="100px" alt="">
+                                            </td>
+
+
+
+
+
+
+                                            <td>{{fav.product.price |format_currency('TND') }}</td>
+                                            <td>{{fav.product.city.getTown()}}, {{fav.product.city}}</td>
+                                            <td>{{fav.product.addDate | date("m/d/Y h:m") }}</td>
+                                            <td>
+                                                 
+
+                                                <div class="btns-actions">
+                                                    <a class="btn-action btn-view" href="{{path('product_details_route',{id:fav.product.id})  }}"><i class="lni-eye"></i></a>
+                                                     
+                                                     <a class="btn-action btn-delete" href="{{ path('remove_from_my_favs',{id:fav.id}) }}"><i class="lni-trash"></i></a> 
+                                                </div>
+
+
+                                            </td>
+
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% endif %}
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

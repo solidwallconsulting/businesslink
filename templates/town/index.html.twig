@@ -1,0 +1,75 @@
+ 
+
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Nos Gouvernorats</h4>
+                        </div>
+
+                        <div>
+
+                            <a class="btn btn-primary btn-sm" href="{{ path('town_new') }}">Ajouter</a>
+                        </div>
+
+                    </div>
+                    <div class="card-body w-100">
+
+
+
+
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Gouvernorat</th>
+                                    <th>Délégation(s)</th> 
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for town in towns %}
+                                <tr>
+                                    <td>{{ town.id }}</td>
+                                    <td>{{ town.name }}</td>
+                                    <td>
+                                        <a href="{{ path('city_index',{id:town.id}) }}"><span class="badge bg-info">{{town.cities | length}} délégation(s)</span></a>
+                                    </td>
+                                    
+                                    <td> 
+                                        <a href="{{ path('town_edit', {'id': town.id}) }}">Modifier</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">Aucun enregistrement trouvé</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {% endblock %}

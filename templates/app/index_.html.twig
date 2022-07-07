@@ -1,0 +1,549 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink{% endblock %}
+
+
+
+{% block hero %} 
+<div id="hero-area" class="banner">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-9 col-xs-12 text-center">
+                <div class="contents">
+                    <h1 class="head-title">Plateforme N°1 Pour Les Opportunités d'Affaires</h1>
+
+                    <p>
+                        <a class="create-shop-btn" href="{{path( 'shops_new' )}}">Choisissez votre profil et lancez-vous GRATUITEMENT</a>
+                    </p>
+
+                    <div class="search-bar">
+                        <div class="search-inner">
+                            <form class="search-form mt-3" method="get" id="main-search-form">
+
+
+                                <div class="form-group mb-3  ">
+                                    <input type="text" name="keyWords" class="form-control"
+                                        placeholder="Que cherchez-vous?">
+                                </div>
+                                <div class="form-group inputwithicon mb-3  ">
+                                    <div class="select">
+                                        <select name="city" class="select-input home-search">
+                                            <option value="" selected="selected">Saisissez une ville et un rayon
+                                            </option>
+
+                                            {% for c in towns %}
+                                            {% for s in c.cities %}
+                                            <option value="{{s.id}}">{{c.name}}, {{ s.name }}</option>
+                                            {% endfor %}
+
+
+                                            {% endfor %}
+
+
+                                        </select>
+                                    </div>
+                                    <i class="lni-target"></i>
+                                </div>
+                                <div class="form-group inputwithicon mb-3  ">
+                                    <div class="select">
+                                        <select name="category" class="select-input home-search">
+
+                                            <option value="" selected="selected">Catégories
+                                            </option>
+
+                                            {% for c in categories %}
+                                            <optgroup label="{{c.name}}">
+                                                {% for s in c.subCategories %}
+                                                <option value="{{s.id}}">{{ s.name }}</option>
+                                                {% endfor %}
+                                            </optgroup>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <i class="lni-menu"></i>
+                                </div>
+                                <button class="btn btn-common " type="submit"><i class="lni-search"></i>
+                                    Chercher</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+
+{% for c in categories %}
+<!-- Modal -->
+<div class="modal fade" id="category-modal-{{c.id}}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabelcategory-modal-{{c.id}}" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelcategory-modal-{{c.id}}">{{c.name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    {% for subs in c.subCategories %}
+                    <div class="col-sm-6 col-md-4">
+                        <div class="card p-2"> 
+                                <a href="{{path('all_products_route',{category:subs.id}) }}">
+                                  
+                                        <div class="text-center">
+                                            
+                                            <strong>{{subs.name}}</strong>
+                                        </div>
+                                   
+                                </a> 
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+{% endfor %}
+
+
+<section id="categories">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <div id="categories-icon-slider" class="categories-wrapper owl-carousel owl-theme">
+
+                    {% for c in categories %}
+
+
+                    <div class="item">
+                        <a href="" data-toggle="modal" data-target="#category-modal-{{c.id}}">
+                            <div class="category-icon-item d-flex" style="
+                            background-image: url({{ c.icon }});
+                            background-size: cover;
+                            background-position: center;
+                            align-items: center;
+                            padding: 10px;
+                            text-align: center;
+                            justify-content: center;
+                            ">
+                                <div class="icon-box"> 
+                                    <h4 class="text-white">{{c.name}}</h4>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="featured section-padding">
+    <div class="container">
+        <p class="text-center mb-5">
+
+            <a href="{{ path('app_siginup') }}"><img class="mb-3 w-100" src="/assets/logo-banner.jpeg" /> <br/></a>
+
+            <a class="btn btn-common" href="/products">Dernières Annonces</a>
+        </p>
+        <div class="row">
+
+            {% for product in products %}
+            <div class="col-sm-4 mb-4">
+                <div class="main-card-bloc-product" style="position: relative;height: 196px;">
+                    <div class="w-100 backdrop" style="background-image: url({{ product.mainPhoto  }});"></div>
+                    <div class="latest-product-card w-100">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-muted to-white">
+                                <i class="far fa-dot-circle"></i> <a href="#" class="to-white">{{product.category.parent}}</a>, <a href="#"
+                                    class="to-white">{{product.category}}</a>
+                            </div>
+                            <div class="text-muted to-white">
+                               <i class="fas fa-map-marker"></i> {{product.city.town}}, {{product.city}}
+                            </div>
+                        </div>
+
+
+
+
+                        <div>
+                            <div class="">
+                                <a href="{{path('product_details_route',{id:product.id})}}"
+                                    class="text-white xcv">{{product.description | slice(0,100) }}...</a>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div class="text-muted to-white">
+                                    {{product.price |format_currency('TND', {fraction_digit: 0}) }}
+                                </div>
+                                <div class="text-muted to-white">
+                                    
+                                    {% if app.user != null %}
+                                                                            <form action="" method="post">
+                                            <input type="hidden" name="product-add-favourite" value="{{product.id}}">
+                                            <button class=" " style="background: none;
+    border: 0;
+    color: white;" type="submit"><i class="text-muted to-white far fa-heart"></i></button>
+                                        </form>
+                                    {% endif %}
+                                    
+                                     
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            {% endfor %}
+
+
+            {% for product in products %}
+            <!--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                <div class="featured-box">
+                    <figure>
+                        {% if app.user %}
+                        <div class="icon">
+                            <form action="" method="post">
+                                <input type="hidden" name="product-add-favourite" value="{{product.id}}">
+                                <button class="bg-green add-to-favourits" type="submit"><i
+                                        class="lni-heart"></i></button>
+                            </form>
+                        </div>
+                        {% endif %}
+                        <a href="{{ path('product_details_route',{id:product.id}) }}"><img class="img-fluid"
+                                src="{{ product.mainPhoto  }}" alt=""></a>
+                    </figure>
+                    <div class="feature-content">
+                        <div class="product">
+                            <a href="#">{{product.category.parent}} > </a>
+                            <a href="#">{{product.category}}</a>
+                        </div>
+                        <h4><a href="{{path('product_details_route',{id:product.id})}}">{{ product.title | slice(0,25) }}...</a></h4>
+                        <div class="meta-tag">
+                            <span>
+                                <a href="#"><i class="lni-user"></i> {{product.owner.firstname}}
+                                    {{product.owner.lastname}}</a>
+                            </span>
+                            <span>
+                                <a href="#"><i class="lni-map-marker"></i> {{product.city.town}},
+                                    {{product.city}}</a>
+                            </span>
+                            <span>
+                                <a href="#"><i class="lni-tag"></i> {{product.category}}</a>
+                            </span>
+                        </div>
+                        <p class="dsc">
+                            {{product.description | slice(0,150) }}...
+                        </p>
+                        <div class="listing-bottom">
+                            <h3 class="price float-left">{{product.price |format_currency('TND', {fraction_digit: 0}) }}
+                            </h3>
+                            <a href="{{path('product_details_route',{id:product.id})}}"
+                                class="btn btn-common float-right">plus de
+                                détails</a>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+            {% endfor %}
+
+
+
+
+
+
+
+        </div>
+    </div>
+</section>
+
+<section class="works bg-light section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="section-title">Pour utiliser la plateforme et bénéficier de toutes ses fonctionnalités</h3>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-12">
+                <div class="works-item wow fadeInRight" data-wow-delay="0.2s">
+                    <div class="icon-box">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <p><span class="orange-text" >Je m'inscris gratuitement</span> pour rejoindre la communauté <strong>Businesss Link</strong> </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-12">
+                <div class="works-item  wow fadeInRight" data-wow-delay="0.4s">
+                    <div class="icon-box">
+                       <i class="far fa-edit"></i>
+                    </div>
+                    <p><span class="orange-text" >Je dépose mon offre</span> , le matching m'adresse des alertes et les offres compatibles avec mes besoins</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-12">
+                <div class="works-item  wow fadeInRight" data-wow-delay="0.6s">
+                    <div class="icon-box">
+                        <i class="far fa-comments"></i>
+                    </div>
+                    <p>
+                    <span class="orange-text" >Je profite</span> des fonctionnalités en illimité en toute simplicité.
+                    </p>
+                </div>
+            </div>
+            <hr class="works-line">
+        </div>
+    </div>
+</section>
+
+
+<section class="works bg-light section-padding" style="background-image: url(/assets/img/bgs/8.jpeg);
+background-position: center;
+background-size: cover;
+background-attachment: fixed;
+">
+
+    <div class="container">
+
+
+     <h3 style="color: #fff;">Créez Votre espace  En Ligne Gratuitement</h3>
+     
+        <div class=" row">
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="kc-elm kc-css-805356 kc_text_block">
+                       
+                        <ol class="shop-waw-list">
+                            <li class="text-white" style="    list-style: auto;">Diffuser Gratuitement et Facilement vos annonces(Achat, vente, échanges, location…) Sans Limite !</li>
+                            <li class="text-white" style="    list-style: auto;">Votre annonce est mise en ligne immédiatement !</li>
+                               <li class="text-white" style="    list-style: auto;">Chatter avec vos clients directement sur BusinessLink</li>
+                            <li class="text-white" style="    list-style: auto;">Gérer et Suivez précisément les statistiques de toutes vos annonces​</li>
+                           
+                        </ol>
+                    </div>
+                    <div class="kc-elm kc-css-934003" style="height: 30px; clear: both; width:100%;"></div>
+                   
+                </div>
+            </div>
+            <div class="col-sm-6">
+               <!-- <div style="height: 100%; background-image: url(https://anoncy.com/wp-content/uploads/2018/12/ads2.png); background-size: cover; background-position: center; "></div>
+            
+                 -->         
+
+            </div>
+
+            <div class="col-12">
+                <div class="kc-elm kc-css-777487 kc_text_block">
+                    <div class="text-center" style="margin-top: 10px;">
+                    
+                            <a class="btn btn-common" href="/signup">Comment s’inscrire et publier une annonce</a>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<!--
+<section class="featured-lis section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
+                <h3 class="section-title">Blog</h3>
+                <div id="new-products" class="owl-carousel owl-theme">
+                    {% for a in articles %}
+                    <div class="item">
+                        <div class="product-item">
+                            <div class="carousel-thumb">
+                                <img class="img-fluid" src="{{a.photoURL}}" alt="">
+                                <div class="overlay">
+                                    <div>
+                                        <a class="btn btn-common"
+                                            href="{{ path('article_details_route',{id:a.id}) }}">Voir Plus</a>
+                                    </div>
+                                </div>
+                                <div class="btn-product bg-sale">
+                                </div>
+                            </div>
+                            <div class="product-content" style="background: #f8f8f8">
+                                <div class="meta-tags">
+                                    <span class="user float-left"><i class="lni-calendar"></i> {{ a.addDate |
+                                        date('y-m-d') }} </span>
+                                    <span class="date float-right"></span>
+                                </div>
+                                <div class="card-text">
+                                    <h3 class="product-title">
+                                        <a href="{{ path('article_details_route',{id:a.id}) }}">{{a.title}}</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+-->
+
+<section class="testimonial section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div id="testimonials" class="owl-carousel">
+                    <div class="item">
+                        <div class="img-thumb">
+                            <img src="assets/img/testimonial/img1.png" style="width: 90px;" alt="">
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="content">
+                                <div class="info-text">
+                                    <h2 class="text-center" ><a href="#">Alexandre Dumoulin</a></h2>
+                                </div>
+                                <p class="description"><i style="font-size: 50px;color: #37425261;margin-right: 8px;" class="fas fa-quote-left"></i>Very good Un grand sens du commerce Très serviable Rare de nos
+                                    jours</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="img-thumb">
+                            <img src="https://user-images.trustpilot.com/6181017b07ebf0001251cf13/64x64.png"
+                                style="width: 90px;" alt="">
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="content">
+                                <div class="info-text">
+                                    <h2 class="text-center"><a href="#">Ghizlane Ennil </a></h2>
+                                </div>
+                                <p class="description"><i style="font-size: 50px;color: #37425261;margin-right: 8px;" class="fas fa-quote-left"></i> Très bon service , et je recommande . Pratique et départ en
+                                    vacances serein .</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<!--
+<section class="subscribes section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="subscribes-inner">
+                    <div class="icon">
+                        <i class="lni-pointer"></i>
+                    </div>
+                    <div class="sub-text">
+                        <h3>Abonnez-vous à notre newsletter</h3>
+                        <p>Et recevez de nouvelles annonces dans votre boîte de réception</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <form>
+                    <div class="subscribe">
+                        <input class="form-control" name="EMAIL" placeholder="Entrez votre adresse email"
+                            required="" type="email">
+                        <button class="btn btn-common" type="submit">Abonner</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>-->
+
+
+
+
+<!--
+    <section class=" section-padding testimonial">
+    <div class="container">
+        <div class="row">
+            {% for c in categories %}
+            <div class="col-sm-12 col-md-2">
+                <ul class="border-bottom list-of-main-page-categories">
+                    <li class="category-title">{{c.name}}</li>
+                    <ul>
+                        {% for s in c.subCategories %}
+                        <li class=" d-flex justify-content-between align-items-center">
+                            <a href="{{ path('all_products_route',{category:s.id}) }}">{{s.name}} </a>
+                            <span class="badge badge-primary badge-pill">{{s.products | length}}</span>
+                        </li>
+
+                        {% endfor %}
+                    </ul>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr>
+
+        <div class="row">
+            {% for t in towns %}
+            <div class="col-sm-12 col-md-2">
+                <ul class="border-bottom">
+                    <li class="category-title">{{t.name}}</li>
+                    <ul>
+                        {% for c in t.cities %}
+                        <li class=" d-flex justify-content-between align-items-center">
+                            <a href="{{ path('all_products_route',{city:c.id}) }}">{{c.name}} </a>
+                            <span class="badge badge-primary badge-pill">{{c.products | length}}</span>
+                        </li>
+
+                        {% endfor %}
+                    </ul>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+-->
+
+
+
+<a href="#" class="back-to-top">
+    <i class="lni-chevron-up"></i>
+</a>
+
+
+
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | {{app.user.firstname}} {{app.user.lastname}}{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> {{app.user.firstname}} {{app.user.lastname}}</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li class="current">Profile</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
+                <aside>
+                    <div class="sidebar-box">
+                        <div class="user">
+
+
+
+                            <div class="usercontent">
+
+                                <form method="POST" action="{{ path('update_profile_picture') }}"
+                                    enctype="multipart/form-data" id="update-photo-form">
+                                    <input type="hidden" name="photo-user-update" id="photo-update-trigger"
+                                        value="null">
+                                    <input type="file" name="photo" id="photo" style="visibility:hidden;">
+
+                                    <div class="avatar-user w-50 m-auto pb-3">
+                                        <img src="{{app.user.photoURL}}" class="w-100 " alt=""
+                                        style="border-radius: 50%;">
+                                        <i class="lni-camera update-profile-photo"></i>
+                                    
+                                    </div>    
+                                </form>
+
+
+
+                                <h3>{{app.user.firstname}} {{app.user.lastname}}</h3>
+                                <h4>{{app.user.email}} </h4>
+
+                                <a href="{{path('edit_account_data_route')}}" class="text-white"><i
+                                        class="lni-pencil"></i> Modifier </a>
+                            </div>
+                        </div>
+                        <nav class="navdashboard">
+                            <ul>
+
+                                {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                <li>
+                                    <a class=" " href="{{ path('web_master_route') }}">
+                                        <i class="lni-dashboard"></i>
+                                        <span>Web master </span>
+                                    </a>
+                                </li>
+                                {% endif %}
+
+
+
+                                <li>
+                                    <a class="active" href="{{ path('profile_route') }}">
+                                        <i class="lni-dashboard"></i>
+                                        <span>Tableau de bord </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="" href="{{ path('my_shops_route') }}">
+                                        <i class="lni-dashboard"></i>
+                                        <span>Mes shops </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('my_products_route') }}">
+                                        <i class="lni-cog"></i>
+                                        <span> Mes annonces</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('my_messages_route') }}">
+                                        <i class="lni-comments-alt"></i>
+                                        <span> Mes messages</span>
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a href="/logout">
+                                        <i class="lni-enter"></i>
+                                        <span>Se déconnecter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--<div class="widget">
+                        <h4 class="widget-title">Advertisement</h4>
+                        <div class="add-box">
+                            <img class="img-fluid" src="assets/img/img1.jpg" alt="">
+                        </div>
+                    </div>-->
+                </aside>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="row page-content">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="inner-box">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Tableau de bord </h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+
+
+                                {% if app.user.roles[0] == "ROLE_CLIENT" %}
+                                    <div class="alert alert-warning">
+                                        <p>
+
+                                            vous êtes maintenant connecté en tant que compte
+                                            <strong>{{app.user.type}}</strong>, vous pouvez toujours mettre à jour votre
+                                            type de compte
+                                        </p>
+                                    </div>
+                                {% endif %}
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

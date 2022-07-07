@@ -1,0 +1,85 @@
+
+ 
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Modifier un Utilisateur</h4>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-secondary btn-sm" href="{{ path('user_index') }}">Retour</a> 
+                        </div>
+
+                    </div>
+                    <div class="card-body" style="position: relative;">
+                          
+                        
+                        {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+                        {% if error != '' %}
+                            <div class="alert alert-danger mt-5">
+                                {{error}}
+                            </div>
+                        {% endif %}
+
+                        <hr>
+
+
+                        {{ include('user/_delete_form.html.twig') }}
+
+
+                        <hr>
+
+
+                        {% if user.roles[0]=='ROLE_ADMIN' %} 
+                            <h6>Réinitialiser mon mot de passe</h6> 
+                            <form   method="post">
+                                <input type="hidden" name="update-password" value="ljdnlkq,sdmq,dlqksnqlknsqkjsbhvqhsjqhb">
+                                 
+                                <div class="mb-3">
+                                    <label for="">Nouveau mot de passe</label>
+                                    <input type="text" name="new-password" class="form-control"  >
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-success" >Modifier</button>
+                                </div>
+                             </form>
+
+
+                           
+
+                        {% endif %}
+                        
+                        
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+ 
+
+
+
+    {% endblock %}

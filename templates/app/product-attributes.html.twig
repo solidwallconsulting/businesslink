@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | Les attributs d'annonce{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title">Ajout d'annonce</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li class="current">Modification des attributs</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-box">
+                    <div class="tg-contactdetail">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Modifier les attributs de l'annonce : {{product.title}}</h2>
+                        </div>
+                        <div class="dashboard-wrapper">
+
+
+                             <form   method="post">
+
+
+                                {% if product.productAttributesValues | length != 0 %}
+                                <div class="row"> 
+                                    <div class="col-sm-12">
+                                        <p class="text-muted">
+                                            La liste ci-dessous montre une liste de vos anciens choix pour ce produit, vous pouvez mettre à jour cette liste à tout moment.
+                                        </p>
+
+                                        <div class="pt-3 pb-3">
+                                            <ul>
+                                                {% for item in product.productAttributesValues %}
+                                                   <li><strong>{{item.attribute.attribute.name}} </strong>:{{item.attribute.value}}</li>  
+                                                {% endfor %}
+                                                
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                </div>
+                                {% endif %}
+                                
+
+                                <strong class="dashbord-title">Modifier les valeur</strong>: <br>
+                                <table class="table">
+                                    <tbody>
+                                        {% for c in attributes %}
+                                            <tr>
+                                                <td>
+                                                    {{ c.attribute }}
+
+                                                </td>
+                                                <td>
+                                                    <select required class="form-control" category-id="{{loop.index}}" name="attributes-{{loop.index}}" id="">
+                                                        <option value="">Veuillez choisir une valeur</option>
+                                                        {% for item in c.attribute.attributeValues %} 
+                                                            <option value="{{item.id}}"> {{item.value}} </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                               
+
+                                <a href="{{ path('my_products_route') }}" class="btn btn-secondary">Passer</a>
+
+                                <button class="btn btn-primary" type="submit">Enregistrer</button>
+
+
+                             </form>
+                        
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

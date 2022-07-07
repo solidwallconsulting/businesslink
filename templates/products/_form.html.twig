@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+
+<div class="row">
+    <div class="col-sm-4">
+        {{ form_label(form.mainPhoto) }}
+        {{ form_widget(form.mainPhoto) }}
+    </div>
+    <div class="col-sm-4">
+        {{ form_label(form.secondPhoto) }}
+        {{ form_widget(form.secondPhoto) }}
+    </div>
+    <div class="col-sm-4">
+        {{ form_label(form.thirdPhoto) }}
+        {{ form_widget(form.thirdPhoto) }}
+    </div>
+
+</div>
+
+{{ form_widget(form) }}
+<button class="btn btn-primary" type="submit">{{ button_label|default('Ajouter') }}</button>
+{{ form_end(form) }}

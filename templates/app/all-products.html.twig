@@ -1,0 +1,497 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | Toutes les annonces{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> Toutes les annonces</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+
+
+                        <li class="current">Toutes les annonces</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-container section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
+                <aside>
+
+
+
+                    <div class="widget categories">
+                        <h4 class="widget-title">Toutes les catégories</h4> 
+
+                        <ul class="categories-list">
+                            {% for c in categories %}
+
+                            <li class="category-filter-element-parent" >
+                                <a class="category-filter-element" href="#"> <strong>{{c.name}}</strong> <span class="category-counter"> </span> </a>
+
+
+                                {% if c.subCategories | length != 0 %}
+                                    <ul class="sub-list">
+                                        {% for sub in c.subCategories %}
+                                        <!---->
+
+                                            {% if sub.products | length != 0 %}
+
+                                            <li><a href="{{ path('all_products_route',{category:sub.id}) }}"> {{sub.name }}<span
+                                                        class="category-counter">({{ sub.products | filter(p
+                                                        => p.status == 1 ) | length }})</span> </a></li>
+
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+
+                                {% endif %}
+
+
+
+                            </li>
+
+
+                            
+
+
+                            {% endfor %}
+
+
+                        </ul>
+                    </div>
+                    <div class="widget">
+                        <h4 class="widget-title">Filtres</h4>
+                        <div class="add-box">
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    {% if category != 0 %}
+                                    <span class="badge bg-info text-white" style="cursor: pointer;"
+                                        id="delete-category">{{categoryLabel}} &times;</span>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Recherche</label>
+
+                                    <input type="search" class="form-control" autocomplete="off" name="s" placeholder=""
+                                        id="keySearch" value="{{keywords}}">
+                                    <button type="button" id="search-submit" class="search-btn" style="top: 25px;"><i
+                                            class="lni-search"></i></button>
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Gouvernorat</label>
+
+                                    <select class="form-control" id="product_add_town">
+                                        <option value="">Veuillez choisir une valeur</option>
+                                        {% for t in towns %}
+                                        <option {% if town !=null %} {% if town.id==t.id %}selected{% endif %} {% endif
+                                            %} value="{{t.id}}">{{t.name}}</option>
+
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Délégations <span id="loading"></span></label>
+
+                                    <select class="form-control" id="product_add_city" disabled>
+                                        <option value="">Veuillez choisir une valeur</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Prix : <span id="minPrice">{{minPrice}}</span> - <span
+                                            id="maxPrice">{{maxPrice}}</span> TND</label>
+                                    <div id="slider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-lg-9 col-md-12 col-xs-12 page-content">
+
+                <div class="product-filter">
+                    <div class="short-name">
+                        <span>{{products | length }} annonces</span>
+                    </div>
+                    <div class="Show-item">
+                        <span>filtrer par</span>
+                        <form class="woocommerce-ordering" method="get">
+                            <label>
+                                <select name="order" class="orderby">
+                                    <option value="addDateRecents" {% if orderBy=='addDate' %} selected {% endif %}>Les
+                                        plus récent</option>
+                                    <option value="addDateOldest" {% if orderBy=='addDate' %} selected {% endif %}>Les
+                                        plus ancien</option>
+
+                                    <option {% if orderBy=='price' %} selected {% endif %} value="price">Prix</option>
+
+                                </select>
+                            </label>
+                        </form>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#list-view"><i class="lni-list"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="adds-wrapper">
+                    <div class="tab-content">
+                        <div id="grid-view" class="tab-pane fade active show">
+                            <div class="row">
+
+                                {% for product in products %}
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <div class="featured-box">
+                                        <figure>
+                                            <!--<span class="price-save">
+                                                30% Save
+                                            </span>-->
+                                            {% if app.user %}
+                                            <div class="icon">
+                                                <form action="" method="post">
+                                                    <input type="hidden" name="product-add-favourite" value="{{product.id}}">
+                                                    <button  class="bg-green add-to-favourits" type="submit" ><i class="lni-heart"></i></button> 
+                                                </form>
+                                            </div>
+                                            {% endif %}
+                                            <a href="{{path('product_details_route',{id:product.id})}}"><img
+                                                    class="img-fluid" src="{{ product.mainPhoto }}" alt=""></a>
+                                        </figure>
+                                        <div class="feature-content">
+                                            <div class="product">
+                                                <a href="#">{{product.category.parent}} > </a>
+                                                <a href="#">{{product.category}}</a>
+                                            </div>
+                                            <h4><a href="{{path('product_details_route',{id:product.id})}}">{{
+                                                    product.title }}</a></h4>
+                                            <div class="meta-tag">
+                                                <span>
+                                                    <a href="#"><i class="lni-user"></i> {{product.owner.firstname}}
+                                                        {{product.owner.lastname}}</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#"><i class="lni-map-marker"></i> {{product.city.town}},
+                                                        {{product.city}}</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#"><i class="lni-tag"></i> {{product.category}}</a>
+                                                </span>
+                                            </div>
+                                            <p class="dsc">
+                                                {{product.description | slice(0,150) }}...
+                                            </p>
+                                            <div class="listing-bottom">
+                                                <h3 class="price float-left">{{product.price |format_currency('TND') }}
+                                                </h3>
+                                                <a href="{{path('product_details_route',{id:product.id})}}" class="btn btn-common float-right">plus de
+                                                    détails</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div id="list-view" class="tab-pane fade">
+                            <div class="row">
+                                {% for product in products %}
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12">
+                                    <div class="featured-box">
+                                        <figure>
+                                            <!--<span class="price-save">
+                                                30% Save
+                                            </span>-->
+                                            {% if app.user %}
+                                            <div class="icon">
+                                                <form action="" method="post">
+                                                    <input type="hidden" name="product-add-favourite" value="{{product.id}}">
+                                                    <button  class="bg-green add-to-favourits" type="submit" ><i class="lni-heart"></i></button> 
+                                                </form>
+                                            </div>
+                                            {% endif %}
+                                            
+                                            <a href="{{path('product_details_route',{id:product.id})}}"><img
+                                                    class="img-fluid" src="{{ product.mainPhoto }}" alt=""></a>
+                                        </figure>
+                                        <div class="feature-content">
+                                            <div class="product">
+                                                <a href="#">{{product.category.parent}} > </a>
+                                                <a href="#">{{product.category}}</a>
+                                            </div>
+                                            <h4><a href="{{path('product_details_route',{id:product.id})}}">{{
+                                                    product.title }}</a></h4>
+                                            <div class="meta-tag">
+                                                <span>
+                                                    <a href="#"><i class="lni-user"></i> {{product.owner.firstname}}
+                                                        {{product.owner.lastname}}</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#"><i class="lni-map-marker"></i> {{product.city.town}},
+                                                        {{product.city}}</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#"><i class="lni-tag"></i> {{product.category}}</a>
+                                                </span>
+                                            </div>
+                                            <p class="dsc">
+                                                {{product.description | slice(0,150) }}...
+                                            </p>
+                                            <div class="listing-bottom">
+                                                <h3 class="price float-left">{{product.price |format_currency('TND') }}
+                                                </h3>
+                                                <a href="{{path('product_details_route',{id:product.id})}}" class="btn btn-common float-right">plus de
+                                                    détails</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="pagination-bar">
+
+                    <div class="pagination-bar">
+                        <nav>
+                            <ul class="pagination justify-content-center">
+
+
+                                {% if pageNumbers >= 2 %}
+                                {% for i in 1.. pageNumbers %}
+                                <li class="page-item"><a {% if i==pageIndex %} class="page-link active" {% else
+                                        %}class="page-link" {% endif %}
+                                        href="{{ path('all_products_route',{pageIndex:i,category:category,minPrice:minPrice,maxPrice:maxPrice,city:city,keyWords:keywords}) }}">{{i}}</a>
+                                </li>
+                                {% endfor %}
+
+
+                                {% endif %}
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+
+<script>
+    $(document).ready(function () {
+
+        var minPrice = '{{minPrice}}';
+        var maxPrice = '{{maxPrice}}';
+        var keyWords = '{{keywords}}';
+        var category = '{{category}}';
+        var city = '{{city}}';
+        var town = '{{town}}';
+        var townID = '{{townID}}';
+        var pageIndex = '{{pageIndex}}';
+
+
+
+
+        var slider = document.getElementById('slider');
+
+        const priceSlider = noUiSlider.create(slider, {
+            start: [minPrice, maxPrice],
+            connect: true,
+            step: 100,
+
+            range: {
+                'min': 0,
+                'max': 250000
+            }
+        });
+
+
+        priceSlider.on('change', function () {
+            let min = priceSlider.get()[0];
+            let max = priceSlider.get()[1];
+
+            const prices = priceSlider.get()
+            console.log(prices);
+
+
+            $("#minPrice").html(Number(min).toFixed());
+            $("#maxPrice").html(Number(max).toFixed());
+
+            minPrice = Number(min).toFixed();
+            maxPrice = Number(max).toFixed();
+
+            refreshProducts();
+
+        })
+
+        $("#keySearch").on('keyup', function (e) {
+            const val = e.target.value;
+
+            console.log(val);
+            keyWords = val;
+
+        })
+
+        $("#search-submit").click(function () {
+            refreshProducts();
+        })
+
+        $("#delete-category").click(function () { category = 0; refreshProducts(); })
+
+
+
+
+
+        $("#product_add_town").change(function () {
+            var id = $(this).val();
+
+            console.log(id);
+
+            if (id != '') {
+                var url = '/city/town/' + id;
+                $("#loading").html('chargement...')
+                $("#product_add_city").attr('disabled', 'disabled');
+                $.ajax({
+                    url: url,
+                }).done(function (cities) {
+                    var blocHTML = '<option value="" selected="selected">Veuillez choisir une valeur</option>';
+
+                    cities.forEach(city => {
+                        blocHTML += '<option value="' + city.id + '" >' + city.name + '</option>';
+                    });
+
+                    $("#product_add_city").html(blocHTML);
+                    $("#loading").html('')
+                    $("#product_add_city").removeAttr('disabled');
+
+                });
+
+            }
+        });
+
+
+        $("#product_add_city").change(function () {
+            var id = $(this).val();
+
+            console.log(id);
+
+            if (id != '') {
+                city = id;
+                refreshProducts();
+            }
+        });
+
+
+        // test for old city choice
+
+        console.log(city);
+
+
+        if (townID) {
+            var url = '/city/town/' + townID;
+            $("#loading").html('chargement...')
+
+            $.ajax({
+                url: url,
+            }).done(function (cities) {
+                var blocHTML = '<option value="" >Veuillez choisir une valeur</option>';
+
+                cities.forEach(c => {
+                    blocHTML += '<option value="' + c.id + '" ';
+
+                    if (c.id === Number(city)) {
+                        blocHTML += 'selected';
+                    }
+
+                    blocHTML += '>' + c.name + '</option>';
+
+                });
+
+                $("#product_add_city").html(blocHTML);
+                $("#loading").html('')
+                $("#product_add_city").removeAttr('disabled');
+
+            });
+        }
+
+
+        // order by select
+
+        $(".orderby").change(function () {
+            var val = $(this).val();
+
+
+            if (val != '') {
+                $(this).closest("form").submit()
+            }
+        });
+
+        function refreshProducts() {
+            // generate new url;
+            //          /products/{category}/{minPrice}/{maxPrice}/{city}/{keyWords}
+
+
+            var url = '/products/1/' + category + '/' + minPrice + '/' + maxPrice + '/' + city + '/' + keyWords
+
+
+            window.location = url;
+        }
+
+    });
+
+</script>
+{% endblock %}

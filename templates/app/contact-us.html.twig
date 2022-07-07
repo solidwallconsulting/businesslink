@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | Contactez-nous{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(/assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> Contactez-nous</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li class="current">Contactez-nous</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="section-padding">
+    <div class="container">
+
+        <div class="product-info row">
+
+
+            <div class="col-12">
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Contactez nous</h1>
+                        <p>
+                            Si vous avez des questions commerciales ou d'autres questions, veuillez remplir le
+                            formulaire suivant pour nous contacter. Merci. </p>
+                    </div>
+                </div>
+
+                <div class="row">
+
+
+
+                    <div class="site-contact container  ">
+
+                        <div>
+                            {% if errorMessage != '' %}
+                            <div class="alert alert-danger mb-3">
+                                {{ errorMessage }}
+                            </div>
+                            {% endif %}
+
+                            {% if successMessage != '' %}
+                            <div class="alert alert-success mb-3">
+                                {{ successMessage }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="profile-tab-content" style="padding: 20px;">
+                            <form id="contact-form" action="" method="post">
+
+                                <div class="form-group">
+                                    <label>votre nom </label> <span class="required" style="color: red;"> * </span>
+                                    <div class="form-group field-contactform-name required">
+                                        <input type="text" id="contactform-name" class="form-control" name="fullname"
+                                            autofocus="" required="required" minlength="3" aria-required="true">
+                                        <p class="help-block help-block-error"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email </label> <span class="required" style="color: red;"> * </span>
+                                    <div class="form-group field-contactform-email required">
+                                        <input type="text" id="contactform-email" class="form-control" name="email"
+                                            autofocus="" required="required" aria-required="true">
+                                        <p class="help-block help-block-error"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sujet </label> <span class="required" style="color: red;"> * </span>
+                                    <div class="form-group field-contactform-subject required">
+                                        <input type="text" id="contactform-subject" class="form-control" name="subject"
+                                            autofocus="" required="required" minlength="3" aria-required="true">
+                                        <p class="help-block help-block-error"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Message </label> <span class="required" style="color: red;"> * </span>
+                                    <div class="form-group field-contactform-body required">
+                                        <textarea id="contactform-body" class="form-control" name="message" rows="6"
+                                            required="required" minlength="10" aria-required="true"></textarea>
+                                        <p class="help-block help-block-error"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Code de vérification </label> <span class="required" style="color: red;"> *
+                                    </span>
+                                    <div class="form-group field-contactform-verifycode">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div class="captcheck_container"></div>
+                                            </div>
+                                        </div>
+                                        <p class="help-block help-block-error"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary" name="contact-button">Envoyer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+
+<script src="https://captcheck.netsyms.com/captcheck.min.js"></script>
+
+
+{% endblock %}

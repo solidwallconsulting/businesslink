@@ -1,0 +1,73 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+               <div class="row row-cols-1">
+                  <div class="d-slider1 overflow-hidden ">
+                     <ul  class="swiper-wrapper list-inline m-0 p-0 mb-2">
+ 
+                        <li class="swiper-slide card card-slide">
+                           <div class="card-body">
+                              <div class="progress-widget"> 
+                                 <div class="progress-detail">
+                                    <p  class="mb-2">Nombre total des membres</p>
+                                    <h4 class="counter">{{ members | length }}</h4>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+
+
+
+                        <li class="swiper-slide card card-slide">
+                           <div class="card-body">
+                              <div class="progress-widget">
+                                 
+                                 <div class="progress-detail">
+                                    <p  class="mb-2">Nombre total d'annonces</p>
+                                    <h4 class="counter">{{ totalProducts | length }}</h4>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        
+                        <li class="swiper-slide card card-slide">
+                           <div class="card-body">
+                              <div class="progress-widget">
+                                 {% if totalProducts | length != 0 %}
+                                 <div id="circle-progress-03" class="circle-progress-01 circle-progress circle-progress-primary text-center" data-min-value="0" data-max-value="100" data-value="{{ ((pendingProducts | length / totalProducts | length) * 100) }}" data-type="percent">
+                                   
+                                 {% endif %}  
+                                 </div>
+                                 <div class="progress-detail">
+                                    <p  class="mb-2">Annonces en attente</p>
+                                    <h4 class="counter">{{ pendingProducts | length }}</h4>
+                                 </div>
+                              </div>
+                           </div>
+                        </li> 
+                        
+                     </ul>
+                     <div class="swiper-button swiper-button-next"></div>
+                     <div class="swiper-button swiper-button-prev"></div>
+                  </div>
+               </div>
+            </div>
+
+
+  
+         </div>
+    </div>
+
+
+    {% endblock %}

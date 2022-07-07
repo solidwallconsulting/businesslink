@@ -1,0 +1,75 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Attributs</h4>
+                        </div>
+
+                        <div>
+
+                            <a class="btn btn-primary btn-sm" href="{{ path('attributes_new') }}">Ajouter</a>
+                        </div>
+
+                    </div>
+                    <div class="card-body w-100">
+
+
+
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Attribut</th>
+                                    <th>Valeur(s)</th>
+                                    
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for attribute in attributes %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ attribute.name }}</td>
+                                    <td>
+                                        <a href="{{ path('attribute_values_index',{id:attribute.id}) }}"> <span class="bg-info badge"> {{ attribute.attributeValues | length }} valeur(s)</span> </a>
+                                    </td>
+                                    <td>
+                                        
+                                        <a href="{{ path('attributes_edit', {'id': attribute.id}) }}">Modifier</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">Aucun enregistrement trouvé</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {% endblock %}

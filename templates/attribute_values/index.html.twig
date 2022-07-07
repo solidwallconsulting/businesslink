@@ -1,0 +1,70 @@
+ 
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Valeur</h4>
+                        </div>
+
+                        <div>
+
+                            <a class="btn btn-primary btn-sm" href="{{ path('attribute_values_new',{id:attribute.id}) }}">Ajouter</a>
+                        </div>
+
+                    </div>
+                    <div class="card-body w-100">
+
+
+
+
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Value</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for attribute_value in attribute_values %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ attribute_value.value }}</td>
+                                    <td> 
+                                        <a href="{{ path('attribute_values_edit', {'id': attribute_value.id}) }}">Modifier</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">Aucun enregistrement trouvé</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {% endblock %}

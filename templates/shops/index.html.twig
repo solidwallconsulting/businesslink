@@ -1,0 +1,323 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprises{% endblock %}
+
+{% block body %}
+    
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> Entreprises</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+
+
+                        <li class="current">Entreprises</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-container section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
+                <aside>
+
+
+ 
+                    <div class="widget">
+                        <h4 class="widget-title">Filtres</h4>
+                        <div class="add-box">
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                     
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Recherche</label>
+
+                                    <input type="search" class="form-control" autocomplete="off" name="s" placeholder=""
+                                        id="keySearch" value="{{keywords}}">
+                                    <button type="button" id="search-submit" class="search-btn" style="top: 25px;"><i
+                                            class="lni-search"></i></button>
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                            
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Choisir une catégorie</label>
+
+                                    <select class="form-control" id="product_add_category">
+                                        <option value="">Choisir une catégorie</option>
+                                        {% for c in categories %}
+                                            <option   value="{{c.id}}">{{c.name}}</option>
+
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Choisir l'emplacement</label>
+
+                                    <select class="form-control" id="product_add_town">
+                                        <option value="">Veuillez choisir une valeur</option>
+                                        {% for t in towns %}
+                                        <option   value="{{t.id}}">{{t.name}}</option>
+
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                            </div>
+                            <!--<div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <label for="">Délégations <span id="loading"></span></label>
+
+                                    <select class="form-control" id="product_add_city" disabled>
+                                        <option value="">Veuillez choisir une valeur</option>
+                                    </select>
+
+                                </div>
+                            </div>-->
+
+
+ 
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-lg-9 col-md-12 col-xs-12 page-content">
+
+                <div class="product-filter">
+                    <div class="short-name">
+                        <a class="btn btn-outline-primary" href="{{ path('shops_new') }}">Créer une entreprise</a>
+                    </div>
+                    <div class="Show-item">
+                         
+                    </div>
+                    <ul class="nav nav-tabs">
+                        
+                    </ul>
+                </div>
+
+
+                <div class="adds-wrapper">
+                    <div class="tab-content">
+                        <div id="grid-view" class="tab-pane fade active show">
+                            <div class="row" id="shops">
+
+                               
+
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+
+
+                <div class="pagination-bar">
+
+                    <div class="pagination-bar">
+                        <nav>
+                            <ul class="pagination justify-content-center">
+
+
+                              
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+
+<script>
+    $(document).ready(function () {
+
+        var query = null;
+        var category = null;
+        var town = null;
+
+       
+        function search(queryLoc = null, townLoc = null, categoryLoc = null){
+            var url = '/shops/search?super=ok'; 
+
+            if (queryLoc != null) {
+                url=url+'&query='+queryLoc;
+            }
+            if (townLoc != null) {
+                url=url+'&town='+townLoc;
+            }
+            if (categoryLoc != null) {
+                url=url+'&category='+categoryLoc;
+            }
+            
+            $("#shops").html('<div class="col-12 mt-5"><p class="text-center text-muted"><strong>Chargement en crous ...</strong></p></div>');
+
+            $.ajax({
+                url: url,
+            }).done(function (shops) {
+                 console.log(shops);
+
+                 let blocHTML='';
+
+                 shops.forEach(shop => {
+                     let shopHTML=`
+                     <div class="col-sm-6 mb-3">
+                                    
+                                    <div class="card p-0">
+                                        <div class="card-body">
+                                            <div class="shop-card">
+                                                 <div class="d-flex">
+                                                     <div class="shop-logo-listing" style="background-image: url(${shop.logoURL});" alt=""></div>
+                                                     <div class="discreption">
+                                                         <h3><a href="/shops/details/${shop.id}">${shop.label}</a> </h3>
+                                                         <p class="text-muted">`;
+                                                            shop.categories.forEach(c => {
+                                                                shopHTML+=`${c.name}, `;
+                                                            });
+                                                            
+                                                            shopHTML+=`</p>
+                                                         <p>${shop.products} annonce(s)</p>
+                                                     </div>
+                                                 </div>
+
+                                                 <div>
+                                                     <p><i class="lni-map-marker"></i> ${shop.town_label}</p>
+                                                 </div>
+
+                                                 <div class="row">
+                                                    <div class="col-sm-4 p-0">
+                                                        <p class="w-100 text-center  "> <a > <i class="lni lni-phone"></i> ${shop.phone}</a> </p>
+                                                    </div>
+                                                    <div class="col-sm-4 p-0">
+                                                       <p class="w-100 text-center  "> <a > <i class="lni lni-phone"></i> ${shop.fix}</a> </p>
+                                                    </div>
+                                                    <div class="col-sm-4 p-0">
+                                                        <p class="w-100 text-center  "> <a > <i class="lni lni-phone"></i> ${shop.whatsapp}</a> </p>
+                                                    </div>
+                                                    
+                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+
+                    blocHTML+=shopHTML;
+                 });
+
+                 $("#shops").html(blocHTML);
+
+            });
+        }
+
+
+
+        search();
+
+
+
+        
+
+        $("#keySearch").on('keyup', function (e) {
+            const val = e.target.value;
+
+            console.log(val);
+            query = val;
+
+            
+            search(query,town,category);
+        })
+ 
+
+        $("#product_add_category").change(function () {
+            var id = $(this).val(); 
+            console.log(id); 
+            category = id;
+
+            search(query,town,category);
+        })
+
+
+        $("#product_add_town").change(function () {
+            var id = $(this).val();
+
+            console.log(id);
+
+            town = id;
+            search(query,town,category);
+           /* if (id != '') {
+                var url = '/city/town/' + id;
+                $("#loading").html('chargement...')
+                $("#product_add_city").attr('disabled', 'disabled');
+                $.ajax({
+                    url: url,
+                }).done(function (cities) {
+                    var blocHTML = '<option value="" selected="selected">Veuillez choisir une valeur</option>';
+
+                    cities.forEach(city => {
+                        blocHTML += '<option value="' + city.id + '" >' + city.name + '</option>';
+                    });
+
+                    $("#product_add_city").html(blocHTML);
+                    $("#loading").html('')
+                    $("#product_add_city").removeAttr('disabled');
+
+                });
+
+            }*/
+        });
+
+
+        /*$("#product_add_city").change(function () {
+            var id = $(this).val();
+
+            console.log(id);
+
+            if (id != '') {
+                city = id;
+                refreshProducts();
+            }
+        });*/
+
+
+        
+            
+      
+
+
+      
+         
+
+    });
+
+</script>
+{% endblock %}

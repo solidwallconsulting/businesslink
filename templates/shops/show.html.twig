@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shops{% endblock %}
+
+{% block body %}
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> Shops</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+
+
+                        <li class="current">Shops</li>
+                        <li class="current">{{shop.label}}</li>
+                        
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-container section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <img class="w-100 mb-5" src="{{ shop.shopBanner }} ">
+            </div>
+            <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
+                <aside>
+
+
+ 
+                    <div class="widget"> 
+                        <div class="add-box">
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                     <img src="{{shop.logoURL}}" class="w-50 m-auto d-block" alt="">
+
+                                </div>
+                                <div class="col-sm-12 mb-3">
+                                   <h4>{{shop.label}}</h4>
+
+                               </div>
+
+                               <div class="col-sm-12 mb-3">
+                               <strong>Lien</strong> 
+                                <p> <a href="{{shop.link}}">appuier pour visiter</a> <p>
+
+                                </div>
+
+                                <style>
+
+                                    .alert-success { 
+                                        font-size: 12px;
+                                    }
+                                </style>
+
+
+                                <div class="col-sm-12 mb-3">
+                                    <div class="alert alert-success mb-3">
+                                        Téléphone mobile : {{shop.phone}}
+                                    </div>
+                                    <div class="alert alert-success mb-3">
+                                        Téléphone fix : {{shop.fixPhone}}
+                                    </div>
+                                    <div class="alert alert-success mb-3">
+                                        Whatsup : {{shop.whatsappNumber}}
+                                    </div>
+
+                                    
+
+                                    
+                                </div>
+
+
+                                <div class="col-sm-12 mb-3">
+                                    <strong>Address</strong> 
+                                     <p class="text-muted"> Appuiyer pour visiter  <p>
+                                </div>
+
+                                <div class="col-sm-12 mb-3">
+                                    <strong>Catégories</strong> 
+                                     <p class="text-muted">
+                                        {% for item in shop.categories %}
+                                            {{item}},
+                                        {% endfor %}
+                                    <p>
+                                </div>
+
+                            </div>
+                            
+
+
+ 
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-lg-9 col-md-12 col-xs-12 page-content">
+
+               
+
+                <div class="adds-wrapper">
+                    <div class="tab-content">
+                         <div class="card">
+                             <div class="card-body">
+                                 <p><strong>Liste</strong></p>
+                                 <hr>
+
+                                 <div class="row">
+                                     {% for item in shop.products %}
+                                         <div class=" col-md-4" >
+                                            <div prod="{{item.id}}" class="shop-item w-100" style="background-image: url({{item.mainPhoto}});">
+                                                <p class=" p-4 text-white title">{{ item.title | slice(0,20) }}...</p>
+                                            </div>
+                                            <div class="w-100">
+                                                <p><strong>TND {{ item.price }}</strong></p>
+                                                <p class="text-muted"> {{ item.description | slice(0,20) }}... </p>
+                                            </div>
+                                           
+                                         </div>
+                                        
+                                     {% endfor %}
+                                 </div>
+
+
+
+                             </div>
+                         </div>
+                    </div>
+                </div>
+
+
+                <div class="pagination-bar">
+
+                    <div class="pagination-bar">
+                        <nav>
+                            <ul class="pagination justify-content-center">
+
+
+                              
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/ico.png" type="image/x-icon">
+    <title> {% block title %}Vente et achat en ligne partout en Tunisie{% endblock %}</title>
+   
+    <meta name="description" content="Déposez, trouvez la bonne affaire, réalisez-la bonne vente pour votre voiture, immobilier, emploi, location de vacances, vêtements, mode, maison, ...">
+    <meta name="keywords" content="voiture, immobilier, emploi, location de vacances, vêtements, mode, maison, BusinessLink," />
+    <meta name="robots" content="index, follow" />
+    <meta name="msvalidate.01" content="" />
+    {% block facebook %}
+        <meta property="og:title" content="BusinessLink" />
+        <meta property="og:url" content="https://www.BusinessLink.tn" />
+        <meta property="og:site_name "content="BusinessLink.tn" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Déposez, trouvez la bonne affaire, réalisez-la bonne vente pour votre voiture, immobilier, emploi, location de vacances, vêtements, mode, maison, ..." />
+
+
+    {% endblock %}
+    {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/fonts/line-icons.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/slicknav.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/color-switcher.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/animate.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/owl.carousel.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/nouislider/dist/nouislider.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/fa/css/all.css') }}">
+
+
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/responsive.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> 
+    {% endblock %}
+
+
+</head>
+
+<body>
+
+
+    <!--<div class="btn-mobile-add-article"> 
+        <a href="{{ path('add_product_route') }}"><i class="lni lni-plus"></i></a>
+    </div>-->
+
+
+
+    {% block header %}
+  <header id="header" class="navbar navbar-inverse navbar-fixed-top nav-big" data-minimize-offset="80">
+    <div class="container" style="display: block;">
+      <div class="navbar-header" style="display: flex;"> 
+      
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle
+            navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+            class="icon-bar"></span> </button> 
+            
+            
+            <a class="navbar-brand" href="/"> 
+              <img id="nav-logo"  height="100%" src="/assets/BusinessLink-nw-white.png" alt="logo MeetPRO">
+            </a>
+
+            <div>  
+            
+            <a   href="/account/product/add" class="btn btn-top-bar text-white"><i class="fas fa-plus"></i> Déposer une annonce</a>
+            </div> 
+      </div>
+ 
+      <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+  
+        <ul class="nav navbar-nav navbar-right"> 
+
+          <li class="nav-item text-center">
+            <a style="padding: 7px 0px 0px 10px;" class="nav-link text-white" href="{{path('my_favs_products_route')}}">
+                <span class="main-nav-icon"><i class="far fa-bell"></i></span> <br>
+                <span class="top-nav-link-text">Mes recherches </span>
+            </a>
+        </li>
+        <li class="nav-item text-center">
+            <a style="padding: 7px 0px 0px 10px;" class="nav-link text-white" href="{{path('my_favs_products_route')}}">
+                <span class="main-nav-icon"><i class="far fa-heart"></i></span> <br>
+                <span class="top-nav-link-text">Favoris </span>
+            </a>
+        </li>
+        <li class="nav-item text-center">
+            <a style="padding: 7px 0px 0px 10px;" class="nav-link text-white" href="{{path('my_messages_route')}}">
+                <span class="main-nav-icon"><i class="far fa-comment"></i></span> <br>
+                
+                <span class="top-nav-link-text">Messages</span>
+            </a>
+        </li>
+        
+        {% if app.user == null %}
+            <li class="nav-item text-center">
+                <a style="padding: 7px 0px 0px 10px;" class="nav-link text-white" href="{{path('app_login')}}">
+                 <span class="main-nav-icon"><i class="far fa-user"></i></span> <br>
+                      <span class="top-nav-link-text">Se connecter</span>
+                </a>
+            </li>
+
+        {% else %}
+            <li class="nav-item text-center">
+                <a style="padding: 7px 0px 0px 10px;" class="nav-link text-white" href="{{path('profile_route')}}">
+                   <span class="main-nav-icon"><i class="far fa-user"></i></span> <br>
+                   <span class="top-nav-link-text">Mon profile</span>
+                </a>
+            </li>
+
+        {% endif %}
+
+        </ul>
+      </div>
+    </div>
+  </header> 
+    {% endblock %}
+
+
+
+    {% block body %}{% endblock %}
+
+    <footer>
+
+        <section class="footer-Content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-xs-6 col-mb-12">
+                        <div class="widget">
+                            <div class="footer-logo">
+                            <a href="{{ path('main_route') }}" class="navbar-brand">
+                               <img src="/assets/BusinessLink-nw-white.png">
+                                </a>
+                            </div>
+                            <div class="textwidget">
+                                <p>
+                                    BusinessLink est un marketplace B2B. Vous pouvez passer une annonce ou consulter des annonces : Entreprises ,Commerces ,Immobilier professionnel, Cabinets d'affaires, Enseignes et franchise, Partenaires et d'associés Affaires Avec des centaines de nouvelle opportunité chaque jour, vous trouverez forcément votre besoin.
+                                </p>
+                            </div>
+                            <h4 class="text-white mt-5">Rejoignez-nous sur</h5>
+                            <ul class="mt-3 footer-social-btns">
+                                <li>
+                                    <a href="#"><i class="fab fa-facebook-square"></i></a>
+                                    
+                                    <a href="#"><i class="fab fa-instagram-square"></i></a>
+
+                                </li> 
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-xs-6 col-mb-12">
+                        <div class="widget" id="contentf">
+                            <h3 class="block-title">Lien rapide</h3>
+                            <ul class="menu">
+
+
+
+                                {% if app.user == null %}
+
+                                <li class="w-100"><a href="{{ path('all_products_route') }}">- Toutes les annonces</a>
+                                </li>
+                                <li class="w-100"><a href="{{path('app_login')}}">- Connexion</a></li>
+                                <li class="w-100"><a href="{{path('app_siginup')}}">- Créer un compte</a></li>
+                                <li class="w-100"><a href="{{path('faq_route')}}">- FAQ's</a></li>
+                                <li class="w-100"><a href="{{path('privacy_policy_route')}}">- Politique de
+                                        confidentialité</a></li>
+                                <li class="w-100"><a href="{{path('terms_route')}}">- Termes et conditions</a></li>
+                                <li class="w-100"><a href="{{path('contact_us_route')}}">- Contactez-nous</a></li>
+
+
+
+
+
+                                {% else %}
+                                <li class="w-100"><a href="{{ path('all_products_route') }}">- Toutes les annonces</a>
+                                </li>
+                                <li class="w-100"><a href="{{path('profile_route')}}">- {{app.user.firstname}}
+                                        {{app.user.lastname}}</a></li>
+                                <li class="w-100"><a href="{{path('faq_route')}}">- FAQ's</a></li>
+                                <li class="w-100"><a href="{{path('contact_us_route')}}">- Contactez-nous</a></li>
+ 
+
+
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-xs-6 col-mb-12">
+                        <div class="widget">
+                            <h3 class="block-title">Contact Info</h3>
+                            <ul class="contact-footer">
+                                <li>
+                                    <strong><i class="lni-phone"></i></strong><span><a href="tel:+216 98 272 272 ">+216 98 272 272 </a></span>
+                                </li>
+                                <li>
+                                    <strong><i class="lni-envelope"></i> </strong><span><a
+                                            href="mailto:Contact@BusinessLink.tn">Contact@BusinessLink.tn</a> </span>
+                                    <strong><i class="lni-envelope"></i> </strong><span><a
+                                            href="mailto:Support@BusinessLink.tn">Support@BusinessLink.tn</a> </span>
+
+                                </li>
+
+                               
+
+                                <li>
+                                    <strong><i class="lni-map-marker"></i></strong><span><a href="#">5 bis rue Ali Darghouth Tunis</a></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row">
+                    <div class="col-md-12">
+                        <div class="site-info text-center mt-5">
+                            
+                            <a href="http://www.solidwall.com.tn/">
+                                <p class="text-white">&copy; Powered By <img src="/assets/LOGO-FINAL.png" class=" footer-solid-logo ml-2" width="60px" alt=""></p>  
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>-->
+
+
+            </div>
+        </section>
+
+        <section class="copyrights">
+            <div class="container d-flex justify-content-between">
+                <div>
+            <p>© businesslink Tous les droits sont réservés. Designed By Solidwall consulting</p>
+        </div>
+        <div>
+            <p>
+                <a href="#"> <i class="fab fa-facebook-square"></i> </a>
+                <a href="#"><i class="fab fa-instagram-square"></i></a>
+                
+            </p>
+        </div>
+
+        <div>
+            <a href="#">Comment ça marche</a>
+            <a href="#">FAQ</a>
+            <a href="#">Contact</a>
+            <a href="#">Politique de confidentialité</a>
+            <a href="#">Conditions d’utilisation</a> 
+        </div>
+            </div>
+        
+
+        </section>
+
+
+
+
+
+    </footer>
+
+
+    <a href="#" class="back-to-top">
+        <i class="lni-chevron-up"></i>
+    </a>
+
+    <div id="preloader">
+        <div class="loader" id="loader-1"></div>
+    </div>
+
+
+    {% block javascripts %}
+    <script data-cfasync="false"
+        src="{{ asset('/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery-min.js') }}"></script>
+    <script src="{{ asset('/assets/js/popper.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/assets/js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/waypoints.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/wow.js') }}"></script>
+    <script src="{{ asset('/assets/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.slicknav.js') }}"></script>
+    <script src="{{ asset('/assets/js/main.js') }}"></script>
+    <script src="{{ asset('/assets/js/form-validator.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/contact-form-script.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/summernote.js') }}"></script>
+
+    <script src="{{ asset('/assets/js/summernote.js') }}"></script>
+
+
+
+
+    <script src="{{ asset('/assets/js/nouislider/dist/nouislider.min.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+    <script src="{{ asset('/assets/js/app.js') }}"></script>
+    <script src="{{ asset('/assets/js/custom.js') }}"></script>
+
+
+    {% endblock %}
+
+</body>
+
+</html>

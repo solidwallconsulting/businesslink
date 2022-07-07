@@ -1,0 +1,266 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | {{ product.title }}{% endblock %}
+
+{% block facebook %}
+    <meta property="og:title" content="{{ product.title }}" />
+    <meta property="og:url" content="https://www.BusinessLink.tn/product-details/{{ product.id }}" />
+    <meta property="og:site_name "content="BusinessLink.tn" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{product.description}}" />
+    <meta property="og:image"  content="https://BusinessLink.tn{{product.mainPhoto}}" />
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(/assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> {{ product.title }}</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li><a href="{{ path('all_products_route') }}">Toutes les annonces /</a></li>
+                        <li class="current">{{ product.title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="section-padding">
+    <div class="container">
+
+        <div class="product-info row">
+
+            <div class="col-12">
+                <div class="ads-details-wrapper">
+                    <div id="owl-demo" class="owl-carousel owl-theme">
+                        <div class="item">
+                            <div class="product-img">
+                                <img class="img-fluid w-100" src="{{product.mainPhoto}}" alt="">
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="product-img">
+                                <img class="img-fluid w-100" src="{{product.secondPhoto}}" alt="">
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="product-img">
+                                <img class="img-fluid w-100" src="{{product.thirdPhoto}}" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12 col-xs-12 mt-5">
+
+                <div class="details-box mt-0">
+                    <div class="ads-details-info">
+                        <span class="price-details">{{product.price |format_currency('TND') }}</span>
+                        <h2>{{product.title}}</h2>
+                        <div class="details-meta">
+                            <span><a href="#"><i class="lni-alarm-clock"></i> {{product.addDate | date("m/d/Y")
+                                    }}</a></span>
+                            <span><a href="#"><i class="lni-map-marker"></i>
+                                    {{product.city}},{{product.city.town}}</a></span>
+                            <span><a href="#"><i class="lni lni-tag"></i> {{product.category}}</a></span>
+                        </div>
+                        <p class="mb-4">
+                            {{product.description}}
+                        </p>
+                        <h4 class="title-small mb-3">Caractéristiques:</h4>
+                        <ul class="list-specification">
+
+                            {% for item in product.productAttributesValues %}
+                            <li><i class="lni-check-mark-circle"></i> {{item.attribute.attribute.name}} :
+                                {{item.attribute.value}} </li>
+                            {% endfor %}
+
+
+                        </ul>
+
+                    </div>
+                    <div class="tag-bottom">
+                        <div class="float-left">
+                            <ul class="advertisement">
+                                <li>
+                                    <p><strong><i class="lni-folder"></i> Categories:</strong> <a
+                                            href="{{path('all_products_route',{category:product.category.id})}}">{{product.category.parent}}
+                                            > {{product.category}} </a></p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="float-right">
+                             <div class="share">
+                                <div class="social-link">
+                                    <a class="facebook" data-toggle="tooltip" data-placement="top" title="facebook"
+                                        href="https://www.facebook.com/sharer.php?u={{app.request.uri}}"><i class="lni-facebook-filled"></i></a>
+                                    <a class="twitter" data-toggle="tooltip" data-placement="top" title="twitter"
+                                        href="https://twitter.com/intent/tweet?url={{app.request.uri}}"><i class="lni-twitter-filled"></i></a>
+                                     
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-xs-12 mt-5">
+
+                <aside class="details-sidebar">
+                    <div class="widget">
+                        {% if product.shop == null %}
+                            <h4 class="widget-title">Posté par</h4>
+                        <div class="agent-inner">
+                            <div class="agent-title">
+                                <div class="agent-photo">
+                                    <a href="#"><img src="{{product.owner.photoURL}}" alt=""></a>
+                                </div>
+                                <div class="agent-details">
+                                    <h3><a href="#">{{product.owner.firstname}} {{product.owner.lastname}}</a></h3>
+                                    <span><i class="lni-phone-handset"></i>(+216){{product.owner.phone}}</span>
+                                </div>
+                            </div>
+
+
+                            {% if messageSent != null %}
+                            <div class="alert alert-success">
+                                votre message est envoyé à {{product.owner.firstname}}
+                            </div>
+                            {% else %}
+                            {% if app.user %}
+                            {% if app.user.id != product.owner.id %}
+
+                            <form method="post">
+                                <input type="hidden" value="send-message" name="send-message">
+                                <textarea name="message" class="form-control"
+                                    placeholder="votre message...">Je suis intéressé par cette propriété et j'aimerais en savoir plus</textarea>
+                                <button class="btn btn-common fullwidth mt-4" type="submit">Envoyer le message</button>
+                            </form>
+
+                            {% endif %}
+
+
+                            {% else %}
+
+                            <a class="btn btn-common fullwidth mt-4" href="{{ path('app_login') }}">Envoyer un
+                                message</a>
+
+                            {% endif %}
+                            {% endif %}
+
+
+
+                        </div>
+                        {% else %}
+
+                          <h4 class="widget-title">Posté par</h4>
+                        <div class="agent-inner">
+                            <div class="agent-title">
+                                <div class="agent-photo">
+                                    <a href="{{ path('shops_show',{id:product.shop.id}) }}"> <img style="height: 71px;" src="{{product.shop.logoURL}}" alt=""></a>
+                                </div>
+                                <div class="agent-details">
+                                    <h3><a href="{{ path('shops_show',{id:product.shop.id}) }}">{{product.shop.label}}</a></h3>
+                                  
+                                </div>
+                            </div>
+
+ 
+
+                        {% endif %}
+                    </div>
+
+
+                    
+
+
+                </aside>
+
+            </div>
+
+
+
+
+
+            <div class="col-12 mt-5">
+
+                <h6>Annonces similaires</h6>
+                <div class="row">
+ 
+
+
+                    {% for product in silimarProducts %}
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                        <div class="featured-box">
+                            <figure>
+                                {% if app.user %}
+                                <div class="icon">
+                                    <form action="" method="post">
+                                        <input type="hidden" name="product-add-favourite" value="{{product.id}}">
+                                        <button class="bg-green add-to-favourits" type="submit"><i
+                                                class="lni-heart"></i></button>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                <a href="{{ path('product_details_route',{id:product.id}) }}"><img class="img-fluid"
+                                        src="{{ product.mainPhoto  }}" alt=""></a>
+                            </figure>
+                            <div class="feature-content">
+                                <div class="product">
+                                    <a href="#">{{product.category.parent}} > </a>
+                                    <a href="#">{{product.category}}</a>
+                                </div>
+                                <h4><a href="{{path('product_details_route',{id:product.id})}}">{{ product.title }}</a></h4>
+                                <div class="meta-tag">
+                                    <span>
+                                        <a href="#"><i class="lni-user"></i> {{product.owner.firstname}}
+                                            {{product.owner.lastname}}</a>
+                                    </span>
+                                    <span>
+                                        <a href="#"><i class="lni-map-marker"></i> {{product.city.town}},
+                                            {{product.city}}</a>
+                                    </span>
+                                    <span>
+                                        <a href="#"><i class="lni-tag"></i> {{product.category}}</a>
+                                    </span>
+                                </div>
+                                <p class="dsc">
+                                    {{product.description}}
+                                </p>
+                                <div class="listing-bottom">
+                                    <h3 class="price float-left">{{product.price |format_currency('TND', {fraction_digit: 0}) }}
+                                    </h3>
+                                    <a href="{{path('product_details_route',{id:product.id})}}"
+                                        class="btn btn-common float-right">plus de
+                                        détails</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

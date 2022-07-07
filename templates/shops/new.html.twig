@@ -1,0 +1,155 @@
+ 
+{% extends 'base.html.twig' %}
+
+{% block title %}Sougna | Ajout d'un shop{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title">Créer un shop</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li class="current">Créer un shop</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-box">
+                    <div class="tg-contactdetail">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Créer un shop </h2>
+                        </div>
+                        <div class="dashboard-wrapper">
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
+                                        <aside>
+                                            <div class="sidebar-box">
+                                                <div class="user">
+                        
+                        
+                        
+                                                    <div class="usercontent">
+                        
+                                                        <form method="POST" action="{{ path('update_profile_picture') }}"
+                                                            enctype="multipart/form-data" id="update-photo-form">
+                                                            <input type="hidden" name="photo-user-update" id="photo-update-trigger"
+                                                                value="null">
+                                                            <input type="file" name="photo" id="photo" style="visibility:hidden;">
+                        
+                                                            <div class="avatar-user w-50 m-auto pb-3">
+                                                                <img src="{{app.user.photoURL}}" class="w-100 " alt=""
+                                                                style="border-radius: 50%;">
+                                                                <i class="lni-camera update-profile-photo"></i>
+                                                            
+                                                            </div>    
+                                                        </form>
+                        
+                        
+                        
+                                                        <h3>{{app.user.firstname}} {{app.user.lastname}}</h3>
+                                                        <h4>{{app.user.email}} </h4>
+                        
+                                                        <a href="{{path('edit_account_data_route')}}" class="text-white"><i
+                                                                class="lni-pencil"></i> Modifier </a>
+                                                    </div>
+                                                </div>
+                                                <nav class="navdashboard">
+                                                    <ul>
+                        
+                                                        {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                                        <li>
+                                                            <a class=" " href="{{ path('web_master_route') }}">
+                                                                <i class="lni-dashboard"></i>
+                                                                <span>Web master </span>
+                                                            </a>
+                                                        </li>
+                                                        {% endif %}
+                        
+                        
+                        
+                                                        <li>
+                                                            <a class="active" href="{{ path('profile_route') }}">
+                                                                <i class="lni-dashboard"></i>
+                                                                <span>Tableau de bord </span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ path('my_products_route') }}">
+                                                                <i class="lni-cog"></i>
+                                                                <span> Mes annonces</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ path('my_messages_route') }}">
+                                                                <i class="lni-comments-alt"></i>
+                                                                <span> Mes messages</span>
+                                                            </a>
+                                                        </li>
+                        
+                        
+                        
+                                                        <li>
+                                                            <a href="/logout">
+                                                                <i class="lni-enter"></i>
+                                                                <span>Se déconnecter</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                            <!--<div class="widget">
+                                                <h4 class="widget-title">Advertisement</h4>
+                                                <div class="add-box">
+                                                    <img class="img-fluid" src="assets/img/img1.jpg" alt="">
+                                                </div>
+                                            </div>-->
+                                        </aside>
+                                    </div>
+                                    <div class="col-sm-12 col-md-8 col-lg-9">
+                                        {% if app.user.isBlocked == true %}
+                                            <div class="alert alert-danger">
+                                                Il semble que vous ne puissiez pas publier de nouveau contenu sur notre plateforme.+ 
+                                                
+                                            </div>
+                                        {% else %}
+                                            {{ include('shops/_form.html.twig') }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

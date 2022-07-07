@@ -1,0 +1,227 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | {{app.user.firstname}} {{app.user.lastname}}{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> {{app.user.firstname}} {{app.user.lastname}}</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li class="current">Profile</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
+                <aside>
+                    <div class="sidebar-box">
+                        <div class="user">
+                            <div class="usercontent">
+
+                                <form method="POST" action="{{ path('update_profile_picture') }}"
+                                enctype="multipart/form-data" id="update-photo-form">
+                                <input type="hidden" name="photo-user-update" id="photo-update-trigger"
+                                    value="null">
+                                <input type="file" name="photo" id="photo" style="visibility:hidden;">
+
+                                <div class="avatar-user w-50 m-auto pb-3">
+                                    <img src="{{app.user.photoURL}}" class="w-100 " alt=""
+                                    style="border-radius: 50%;">
+                                    <i class="lni-camera update-profile-photo"></i>
+                                
+                                </div>    
+                            </form>
+
+                                
+
+                                <h3>{{app.user.firstname}} {{app.user.lastname}}</h3>
+                                <h4>{{app.user.email}}  </h4>
+
+                                <a href="{{path('edit_account_data_route')}}" class="text-white" ><i class="lni-pencil"></i> Modifier </a>
+                            </div>
+                        </div>
+                        <nav class="navdashboard">
+                            <ul>
+                                {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                    <li>
+                                        <a class=" "  href="{{ path('web_master_route') }}">
+                                            <i class="lni-dashboard"></i>
+                                            <span>Web master </span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{{ path('profile_route') }}">
+                                        <i class="lni-dashboard"></i>
+                                        <span>Tableau de bord </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('my_products_route') }}">
+                                        <i class="lni-cog"></i>
+                                        <span> Mes annonces</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{{ path('my_messages_route') }}">
+                                        <i class="lni-comments-alt"></i>
+                                        <span> Mes messages</span>
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a href="/logout">
+                                        <i class="lni-enter"></i>
+                                        <span>Se déconnecter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--<div class="widget">
+                        <h4 class="widget-title">Advertisement</h4>
+                        <div class="add-box">
+                            <img class="img-fluid" src="assets/img/img1.jpg" alt="">
+                        </div>
+                    </div>-->
+                </aside>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="row page-content">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="inner-box">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mes messages </h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+                                <form class="row offers-messages" method="post" >
+                                    <input type="hidden" name="send-message" value="send-message" >
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 p-0 " style="    padding-left: 15px !important;">
+                                        <div class="offers-box w-100">
+                                            <div class="dashboardboxtitle">
+                                                <h2>Conversations</h2>
+                                            </div>
+                                            <ul class="offers-user-online">
+                                                {% for c in conversations %}
+                                                    <li class="offerer">
+                                                        <figure>
+                                                            <a href="{{path('my_messages_route',{conversation:c.id})}}">
+                                                                <img src="{{c.relatedProduct.mainPhoto}}" style="height: 50px; width:50px" alt="">
+                                                            </a>
+                                                            
+                                                        </figure>
+                                                         
+                                                        <div class="user-name">
+                                                            <h3>
+                                                                <a href="{{path('my_messages_route',{conversation:c.id})}}">
+                                                                    {{c.relatedProduct.title}}
+                                                                </a>
+ 
+                                                            </h3>
+                                                            <h4><a href="{{path('my_messages_route',{conversation:c.id})}}">
+                                                                {% for u in c.relatedTo %}
+                                                                    {% if u.id != app.user.id %}
+                                                                    
+                                                                    {{u.firstname}} {{u.lastname}}
+
+                                                                    {% endif %}
+                                                                    
+                                                                {% endfor %}
+                                                            </a></h4>
+                                                        </div>
+                                                    </li> 
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 p-0" style="padding-left: 15px !important;">
+                                        {% if conversation != null %}
+                                        
+                                        <div class="chat-message-box">
+                                            <div class="dashboardboxtitle">
+                                                <h2> <img src="{{ conversation.relatedProduct.mainPhoto }}" width="50px" alt=""> {{ conversation.relatedProduct.title }}</h2>
+                                            </div>
+                                             
+
+
+                                            {% for m in messages %}
+                                                {% if m.sender.id == app.user.id %}
+                                                <div class="memessage readmessage w-100" >
+                                                    <figure>
+                                                        <img src="{{app.user.photoURL}}" width="50px" alt="">
+                                                    </figure>
+                                                    <div class="description">
+                                                        <div class="info">
+                                                            <h3>{{app.user.firstname}} {{app.user.lastname}}</h3>
+                                                            <p>{{m.message}}</p>
+                                                            <div class="date">{{ m.sendDate | date("m/d/Y h:m") }}</div>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+
+                                                {% else %}
+
+                                                    <div class="offerermessage w-100" >
+                                                        <figure>
+                                                            <img src="{{m.sender.photoURL}}" width="50px" alt="">
+                                                        </figure>
+                                                        <div class="description">
+                                                            <div class="info">
+                                                                <h3>{{m.sender.firstname}} {{m.sender.lastname}}</h3>
+                                                                <p>{{m.message}}</p>
+                                                            </div>
+                                                            <div class="date">{{ m.sendDate | date("m/d/Y h:m") }}</div>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                             
+                                        </div>
+                                        <div class="replay-box" >
+                                            <textarea name="message"  class="form-control" name="reply" placeholder="Votre message..."></textarea>
+                                            <div class="icon-box" style="  height: 56px;">
+                                                <button class="btn btn-primary btn-sm" type="submit">Envoyer</button>
+                                            </div>
+                                        </div>
+
+
+                                        
+                                        {% endif %}
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,57 @@
+ 
+ 
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Modifier délégation</h4>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-secondary btn-sm" href="{{ path('city_index',{id:city.town.id}) }}">Retour</a> 
+                        </div>
+
+                    </div>
+                    <div class="card-body" style="position: relative;">
+                          
+                        {% if errorMessage != '' %}
+                            <div class="alert alert-danger">
+                                {{ errorMessage }}
+                            </div>
+                        {% endif %}
+                        
+                        {{ include('city/_form.html.twig',{'button_label':'Modifier'}) }}
+
+                        <hr>
+
+                        {{ include('city/_delete_form.html.twig') }}
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+ 
+
+
+
+    {% endblock %}

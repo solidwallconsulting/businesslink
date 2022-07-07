@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | Ajout d'annonce{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title">Ajout d'annonce</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li class="current">Ajout d'annonce</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-box">
+                    <div class="tg-contactdetail">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Détails de l'Annonce</h2>
+                        </div>
+                        <div class="dashboard-wrapper">
+
+
+                            {% if app.user.isBlocked == true %}
+                                <div class="alert alert-danger">
+                                    Il semble que vous ne puissiez pas publier de nouveau contenu sur notre plateforme.+ 
+                                    
+                                </div>
+                            {% else %}
+                            {{ form_start(form) }}
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    {{ form_label(form.mainPhoto) }} 
+                                    {{ form_widget(form.mainPhoto) }} 
+                                </div>
+                                <div class="col-sm-4">
+                                    {{ form_label(form.secondPhoto) }} 
+                                    {{ form_widget(form.secondPhoto) }} 
+                                </div>
+                                <div class="col-sm-4">
+                                    {{ form_label(form.thirdPhoto) }} 
+                                    {{ form_widget(form.thirdPhoto) }}
+                                </div> 
+                                 
+                            </div>
+
+                            {{ form_widget(form) }} 
+                            <button class="btn btn-common" type="submit">{{ button_label|default('Ajouter') }}</button>
+                        {{ form_end(form) }}
+                            {% endif %}
+                        
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

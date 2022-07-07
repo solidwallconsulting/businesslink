@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | {{app.user.firstname}} {{app.user.lastname}}{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title"> {{app.user.firstname}} {{app.user.lastname}}</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li><a href="{{ path('profile_route') }}">Profile /</a></li>
+
+                        <li class="current">Mes annonces</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
+                <aside>
+                    <div class="sidebar-box">
+                        <div class="user">
+                            <div class="usercontent">
+
+                                <form method="POST" action="{{ path('update_profile_picture') }}"
+                                enctype="multipart/form-data" id="update-photo-form">
+                                <input type="hidden" name="photo-user-update" id="photo-update-trigger"
+                                    value="null">
+                                <input type="file" name="photo" id="photo" style="visibility:hidden;">
+
+                                <div class="avatar-user w-50 m-auto pb-3">
+                                    <img src="{{app.user.photoURL}}" class="w-100 " alt=""
+                                    style="border-radius: 50%;">
+                                    <i class="lni-camera update-profile-photo"></i>
+                                
+                                </div>    
+                            </form>
+
+                                
+
+                                <h3>{{app.user.firstname}} {{app.user.lastname}}</h3>
+                                <h4>{{app.user.email}}  </h4>
+
+                                <a href="{{path('edit_account_data_route')}}" class="text-white" ><i class="lni-pencil"></i> Modifier </a>
+                            </div>
+                        </div>
+                        <nav class="navdashboard">
+                            <ul>
+                                {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                    <li>
+                                        <a class=" "  href="{{ path('web_master_route') }}">
+                                            <i class="lni-dashboard"></i>
+                                            <span>Web master </span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                <li>
+                                    <a href="{{ path('profile_route') }}">
+                                        <i class="lni-dashboard"></i>
+                                        <span>Tableau de bord </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{{ path('my_products_route') }}">
+                                        <i class="lni-cog"></i>
+                                        <span> Mes annonces</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  href="{{ path('my_messages_route') }}">
+                                        <i class="lni-comments-alt"></i>
+                                        <span> Mes messages</span>
+                                    </a>
+                                </li>
+                                
+
+
+                                <li>
+                                    <a href="/logout">
+                                        <i class="lni-enter"></i>
+                                        <span>Se déconnecter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--<div class="widget">
+                        <h4 class="widget-title">Advertisement</h4>
+                        <div class="add-box">
+                            <img class="img-fluid" src="assets/img/img1.jpg" alt="">
+                        </div>
+                    </div>-->
+                </aside>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="row page-content">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="inner-box">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mes produits</h2>
+                            </div>
+                            <p style="margin-left: 15px;">
+                                <a href="{{ path('add_product_route') }}" class="btn btn-outline-info" >Ajouter une annonce</a>
+                            </p>
+                            <div class="dashboard-wrapper">
+                                <nav class="nav-table">
+                                    <ul>
+                                        <li {% if status == 99 %}class="active"{% endif %} ><a href="{{ path('my_products_route') }}">Tous mes annonces ({{app.user.products | length}})</a></li>
+                                        <li {% if status == 0 %}class="active"{% endif %}><a href="{{ path('my_products_route',{status:0}) }}">En attente ({{app.user.products | filter(p => p.status == 0) |length }})</a></li>
+                                        
+                                        <li {% if status == 1 %}class="active"{% endif %}><a href="{{ path('my_products_route',{status:1}) }}">Publié ({{app.user.products | filter(p => p.status == 1) |length }})</a></li>
+                                        <li {% if status == 2 %}class="active"{% endif %}><a href="{{ path('my_products_route',{status:2}) }}">Refusé ({{app.user.products | filter(p => p.status == 2) |length }})</a></li> 
+                                        <li {% if status == 3 %}class="active"{% endif %}><a href="{{ path('my_products_route',{status:3}) }}">Vendu ({{app.user.products | filter(p => p.status == 3) |length }})</a></li> 
+                                        
+                                    </ul>
+                                </nav>
+
+                                <table class="table table-responsive dashboardtable tablemyads w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Titre</th>
+                                            <th>Image annonce</th>
+                                            <th>Prix</th>
+                                            <th>Disponible à</th>
+                                            <th>Ajouté le</th>
+                                            <th>actions</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for produit in products %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td> <span class="badge bg-info text-white">{{produit.category}}</span> <br>
+                                                {{produit.title}}</td>
+                                            <td>
+                                                <img src="{{produit.mainPhoto}}" width="100px" alt="">
+                                            </td>
+
+
+
+
+
+
+                                            <td>{{produit.price |format_currency('TND') }}</td>
+                                            <td>{{produit.city.getTown()}}, {{produit.city}}</td>
+                                            <td>{{produit.addDate | date("m/d/Y h:m") }}</td>
+                                            <td>
+                                                <div class="btns-actions">
+                                                    <a class="btn-action btn-view" href="{{ path('product_details_route',{id:produit.id}) }}"><i class="lni-eye"></i></a>
+                                                    <a class="btn-action btn-edit" href="{{ path('edit_product_route',{id:produit.id}) }}"><i
+                                                            class="lni-pencil"></i></a>
+                                                    <!--<a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a>-->
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

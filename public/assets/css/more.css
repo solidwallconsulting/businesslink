@@ -1,0 +1,76 @@
+#banner{
+    background-image: url(/assets/img/bgs/3.jpg) !important;
+    background-size: cover;
+  }
+
+#main-search-btn::after{
+  display: none !important;
+}
+
+.top-nav-link-text{
+  font-size: 12px;
+}
+
+
+.slick-next::before {
+  content: "\f061" !important;
+  font-family: 'Font Awesome 5 Free' !important;
+}
+
+.slick-prev::before {
+  content: "\f060" !important;
+  font-family: 'Font Awesome 5 Free' !important;
+} 
+
+
+
+.sf-toolbar{
+  display: none !important;
+}
+
+
+#categories-icon-slider .owl-prev{
+  position: absolute;
+  top: 40%;
+  left: -43px;
+  color: #d1d1d1;
+  font-size: 30px;
+}
+
+#categories-icon-slider .owl-next{
+  position: absolute;
+  top: 40%;
+  right:  -43px;
+  color: #d1d1d1;
+  font-size: 30px;
+}
+ 
+
+@media screen and ( max-width: 700px ) {
+  .owl-nav{
+    display: none;
+  }
+}
+
+
+@media screen and ( max-width: 800px ) {
+  .navbar-brand{
+      display: none;
+  }
+
+  .btn-top-bar{
+      margin-top: 7px;
+  }
+
+  .navbar-right > .nav-item{
+    text-align: start !important;
+  }
+
+  
+}
+
+
+
+.bubble-title.small {
+  font-size: 32px !important; 
+}

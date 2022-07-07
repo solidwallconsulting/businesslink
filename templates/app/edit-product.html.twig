@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | modifier annonce{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title">Modifier annonce</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Accueil /</a></li>
+                        <li class="current">Modifier d'annonce</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-box">
+                    <div class="tg-contactdetail">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Détails de l'Annonce : {{ product.title }}</h2> 
+
+                            
+                        </div>
+                        <div class="dashboard-wrapper">
+                            
+                            <a href="{{ path('add_product_attribute_route',{id:product.id}) }}">Modifier les attributs  </a>
+                            <hr>
+
+
+                            {{ form_start(form) }}
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+ 
+                                        {% if product.mainPhoto != '' %}
+                                            <img src="{{product.mainPhoto}}" class="w-100" alt="">
+                                        {% endif %}
+
+
+                                        {{ form_label(form.mainPhoto) }} 
+                                        {{ form_widget(form.mainPhoto) }} 
+                                    </div>
+                                    <div class="col-sm-4">
+                                        {% if product.secondPhoto != '' %}
+                                            <img src="{{product.mainPhoto}}" class="w-100" alt="">
+                                        {% endif %}
+
+                                        {{ form_label(form.secondPhoto) }} 
+                                        {{ form_widget(form.secondPhoto) }} 
+                                    </div>
+                                    <div class="col-sm-4">
+                                        {% if product.thirdPhoto != '' %}
+                                            <img src="{{product.mainPhoto}}" class="w-100" alt="">
+                                        {% endif %}
+
+                                        {{ form_label(form.thirdPhoto) }} 
+                                        {{ form_widget(form.thirdPhoto) }} 
+                                    </div> 
+                                     
+                                </div>
+
+                                {{ form_widget(form) }} 
+                                <button class="btn btn-common" type="submit">{{ button_label|default('Modifier') }}</button>
+                            {{ form_end(form) }}
+
+                            <hr>
+                            <div>
+                                <p class="text-muted">
+                                    Dans le cas où votre produit est vendu s'il vous plaît, faites-le nous savoir pour informer les autres utilisateurs
+                                </p>
+
+                                <form action="" method="post">
+                                    <input type="hidden" name="product-sold" value="product-sold">
+                                    <button class="btn btn-success mt-3" type="submit">Vendu</button>
+                                </form>
+                            </div>
+                        
+                            
+                             
+
+
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,99 @@
+ 
+ 
+
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Toutes les annonces</h4>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-primary btn-sm" href="{{ path('products_new') }}">Ajouter</a>
+                        </div>
+
+                    </div>
+                    <div class="card-body w-100">
+
+
+                        {% if error !='' %}
+                            <div class="alert alert-danger">
+                                {{ error }}
+                            </div>
+                        {% endif %}
+                        
+
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Status</th>
+                                    <th>Titre</th>  
+                                    <th>Price</th>
+                                    <th>Date d'ajout</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>
+                                        {% if product.status == 0 %}
+                                            <span class="badge bg-warning">en attente</span>
+                                        {% endif %}
+                                        {% if product.status == 1 %}
+                                            <span class="badge bg-success">publié</span>
+                                        {% endif %}
+                                        {% if product.status == 2 %}
+                                            <span class="badge bg-danger">refusé</span>
+                                        {% endif %}
+                                        {% if product.status == 3 %}
+                                            <span class="badge bg-info">vendu</span>
+                                        {% endif %}
+                                        
+                                    </td>
+                                    <td>
+                                        <img src="{{product.mainPhoto}}" width="50px" style="float: left;margin-right:15px" alt="">
+                                        {{ product.title }} </td>  
+                                    
+                                    <td>{{ product.price |format_currency('TND') }}</td>
+                                    <td>{{ product.addDate ? product.addDate|date('Y-m-d H:i:s') : '' }}</td>
+                                    <td>
+                                        <a href="{{ path('products_show', {'id': product.id}) }}">Afficher</a> 
+                                         
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="10">Aucun enregistrement trouvé</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {% endblock %}

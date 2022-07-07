@@ -1,0 +1,103 @@
+ 
+
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                     
+                    <div class="card-body w-100">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="inner-box">
+                                    <div class="tg-contactdetail">
+                                        <div class="dashboard-box">
+                                            <h2 class="dashbord-title">Modifier les attributs de l'annonce : {{product.title}}</h2>
+                                        </div>
+                                        <div class="dashboard-wrapper">
+                
+                
+                                             <form   method="post">
+                
+                
+                                                {% if product.productAttributesValues | length != 0 %}
+                                                <div class="row"> 
+                                                    <div class="col-sm-12">
+                                                        <p class="text-muted">
+                                                            La liste ci-dessous montre une liste de vos anciens choix pour ce produit, vous pouvez mettre à jour cette liste à tout moment.
+                                                        </p>
+                
+                                                        <div class="pt-3 pb-3">
+                                                            <ul>
+                                                                {% for item in product.productAttributesValues %}
+                                                                   <li><strong>{{item.attribute.attribute.name}} </strong>:{{item.attribute.value}}</li>  
+                                                                {% endfor %}
+                                                                
+                                                            </ul>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                {% endif %}
+                                                
+                
+                                                <strong class="dashbord-title">Modifier les valeur</strong>: <br>
+                                                <table class="table">
+                                                    <tbody>
+                                                        {% for c in attributes %}
+                                                            <tr>
+                                                                <td>
+                                                                    {{ c.attribute }}
+                
+                                                                </td>
+                                                                <td>
+                                                                    <select required class="form-control" category-id="{{loop.index}}" name="attributes-{{loop.index}}" id="">
+                                                                        <option value="">Veuillez choisir une valeur</option>
+                                                                        {% for item in c.attribute.attributeValues %} 
+                                                                            <option value="{{item.id}}"> {{item.value}} </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                
+                                               
+                
+                                                <a href="{{ path('products_index') }}" class="btn btn-secondary">Passer</a>
+                
+                                                <button class="btn btn-primary" type="submit">Enregistrer</button>
+                
+                
+                                             </form>
+                                        
+                                            
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {% endblock %}

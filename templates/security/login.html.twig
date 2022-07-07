@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusinessLink | Se connecter{% endblock %}
+
+{% block body %}
+
+
+<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title">Authentification</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('main_route') }}">Home /</a></li>
+                        <li class="current">Authentification</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="login section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-12 col-xs-12">
+                <div class="login-form login-area">
+                    <h3>
+                        Authentification
+                    </h3>
+                    <form role="form" class="login-form" method="post">
+                        <div class="form-group">
+                            <div class="input-icon">
+                                <i class="lni-user"></i>
+                                <input   value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-icon">
+                                <i class="lni-lock"></i>
+                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="custom-control custom-checkbox">
+                                 <p>Vous n'avez pas de compte ? vous pouvez <a href="{{ path('app_siginup') }}">créer un compte</a> gratuitement</p>
+                            </div>
+                            <a class="forgetpassword" href="{{ path('forget_password_route') }}">Mot de passe oublié?</a>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-common log-btn btn-block mt-3">Se connecter</button>
+                        </div>
+                        
+                        <input type="hidden" name="_csrf_token"  value="{{ csrf_token('authenticate') }}" >
+
+                        {% if error %}
+                            <div class="alert alert-danger mt-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+                        {% if errorMessage != '' %}
+                            <div class="alert alert-danger mt-3">{{ errorMessage }}</div>
+                        {% endif %}
+                        
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+ 
+
+{% endblock %}

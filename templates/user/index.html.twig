@@ -1,0 +1,86 @@
+ 
+
+ 
+
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Utilisateurs</h4>
+                        </div>
+
+                        <div>
+
+                            <a class="btn btn-primary btn-sm" href="{{ path('user_new') }}">Ajouter</a>
+                        </div>
+
+                    </div>
+                    <div class="card-body w-100">
+
+
+
+
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Utilisateur</th>
+                                    <th>Type</th>
+                                    <th>Phone</th>
+                                    <th>Address</th> 
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>
+                                        <p>
+                                            <img src="{{ user.photoURL }}" width="50px" alt="" style="float: left; margin-right:15px; border-radius: 50%">
+                                            <strong>{{ user.firstname }} {{ user.lastname }}</strong> <br>
+                                            <small class="text-muted">{{ user.email }}</small>
+                                        </p>
+                                    </td>  
+                                    <td>
+                                        {{user.type}}
+                                    </td>
+                                     <td>{{ user.phone }}</td>
+                                    <td>{{ user.address }}</td> 
+                                    <td> 
+                                        <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="10">Aucun enregistrement trouvé</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {% endblock %}
